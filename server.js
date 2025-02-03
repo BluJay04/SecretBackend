@@ -9,7 +9,7 @@ const PORT = 3000;
 
 // Allow frontend to access backend
 app.use(cors({
-  origin: "https://justice4cusatteachers.netlify.app/", // Replace with your Netlify frontend URL
+  origin: ["https://justice4cusatteachers.netlify.app", "http://localhost:5173"], 
   methods: "GET,POST,PUT,DELETE",
   credentials: true // If using cookies/authentication
 }));
@@ -37,6 +37,8 @@ app.get("/", (req, res) => {
 });
 
 app.post("/submit", async (req, res) => {
+  console.log("Received request:", req.body); // Add logging
+  
   const { name, email, phone } = req.body;
   
   if (!name || !email || !phone) {
@@ -44,10 +46,14 @@ app.post("/submit", async (req, res) => {
   }
 
   try {
-    // Check if the user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ 
+      $or: [{ email }, { phone }] 
+    });
+    
     if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
+      return res.status(400).json({ 
+        message: existingUser.email === email ? "Email already exists" : "Phone number already exists" 
+      });
     }
 
     // If user does not exist, create a new user
