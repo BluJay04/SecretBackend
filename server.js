@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = 3000;
 
-const cors = require("cors");
 
 // Allow frontend to access backend
 app.use(cors({
