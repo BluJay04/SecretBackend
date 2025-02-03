@@ -9,7 +9,7 @@ const PORT = 3000;
 
 // Allow frontend to access backend
 app.use(cors({
-  origin: "https://your-netlify-app.netlify.app", // Replace with your Netlify frontend URL
+  origin: "https://justice4cusatteachers.netlify.app/", // Replace with your Netlify frontend URL
   methods: "GET,POST,PUT,DELETE",
   credentials: true // If using cookies/authentication
 }));
