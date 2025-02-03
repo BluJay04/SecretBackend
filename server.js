@@ -23,6 +23,11 @@ const User = mongoose.model("User", userSchema);
 app.use(cors());
 app.use(bodyParser.json());
 
+// Add root route
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Server is running" });
+});
+
 app.post("/submit", async (req, res) => {
   const { name, email, phone } = req.body;
   
@@ -67,6 +72,11 @@ app.get("/users/count", async (req, res) => {
     console.error("Error fetching user count:", error);
     res.status(500).json({ message: "Error fetching user count" });
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
 });
 
 // Start server
