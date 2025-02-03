@@ -6,6 +6,15 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = 3000;
 
+const cors = require("cors");
+
+// Allow frontend to access backend
+app.use(cors({
+  origin: "https://your-netlify-app.netlify.app", // Replace with your Netlify frontend URL
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true // If using cookies/authentication
+}));
+
 // Connect to MongoDB with error handling
 mongoose.connect("mongodb+srv://arunpakalomattom20:jYn0502LSzdzz1u4@cluster0.tanhj.mongodb.net/")
   .then(() => console.log("Connected to MongoDB"))
